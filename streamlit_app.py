@@ -30,7 +30,6 @@ try:
       streamlit.error("Please select fruit to get info")
 except URLError as e:
   streamlit.error()
-streamlit.stop()
 
 my_cnx = snowflake.connector.connect(**streamlit.secrets ["snowflake"])
 my_cur = my_cnx.cursor()
@@ -39,5 +38,14 @@ my_data_rows = my_cur.fetchall()
 streamlit. header ("The fruit load list contains ")
 streamlit.dataframe (my_data_rows)
 fruit_choice_1=streamlit. text_input ("What fruit do you like to add ")
-streamlit.write('Thanks for adding ', fruit_choice_1)
+if(fruit_choice_1):
+  insert_row_snowflake(fruit_choice_1)
+  streamlit.write('Thanks for adding ', fruit_choice_1)
+
+
+def insert_row_snowflake (new_fruit):
+  with my_cnx.cursor() as my_cur:
+    my_cur.execute ("insert into fruit_load_list values ('"+new_fruit +"')")
+    return "Thanks for adding "+new_fruit
+
 
