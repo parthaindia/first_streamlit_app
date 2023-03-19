@@ -27,7 +27,7 @@ try:
     fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
     streamlit.dataframe(fruityvice_normalized)
    else:
-    streamlit.error("Please select fruit to get info")
+      streamlit.error("Please select fruit to get info")
  except URLError as e:
   streamlit.error()
 streamlit.stop()
